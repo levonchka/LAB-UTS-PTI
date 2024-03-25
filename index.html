@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Money Tracker</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+    }
+    .login-container {
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+      backdrop-filter: blur(5px);
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .bitcoin-image {
+      display: block;
+      margin: 20px auto;
+      max-width: 50%;
+      height: auto;
+    }
+    h3 {
+      font-family: 'Roboto', sans-serif; 
+      font-weight: 700; 
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+    label {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400; 
+      letter-spacing: 1px;
+      color: #ffffff; 
+    }
+    .btn-primary {
+      background-color: #00d4ff;
+      border: none;
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.7);
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #00b3cc;
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.9);
+    }
+    .form-control {
+      background: none;
+      border: 1px solid #00d4ff;
+      color: #fff;
+      transition: border 0.3s ease;
+    }
+    .form-control:focus {
+      border-color: #00b3cc;
+      box-shadow: 0 0 5px rgba(0, 212, 255, 0.7);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="login-container">
+          <h3 class="text-center">Money Tracker</h3>
+          <img src="Images/bitcoin.png" alt="Bitcoin" class="bitcoin-image">
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" class="form-control" id="username" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var username = document.getElementById('username').value;
+      if(username) {
+
+        var existingData = localStorage.getItem(username);
+        if (!existingData) {
+
+          var userData = {
+            balance: 0,
+            transactions: []
+          };
+          localStorage.setItem(username, JSON.stringify(userData));
+        }
+
+        localStorage.setItem('activeUser', username);
+
+        window.location.href = 'main.html';
+      } else {
+        alert('Silakan masukkan username Anda.');
+      }
+    });
+  </script>
+</body>
+</html>

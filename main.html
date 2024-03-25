@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Money Tracker</title>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+  }
+  .navbar {
+    width: 100%;
+    border-bottom: 2px solid #ffffff;
+    padding-bottom: 10px;
+    background: transparent;
+    color: #fff;
+  }
+  .navbar a {
+    color: hsl(0, 0%, 100%);
+    transition: color 0.3s ease;
+  }
+  .navbar a:hover {
+    color: #ffffff;
+  }
+  .main-container {
+    width: 100%;
+    max-width: 800px; 
+    padding: 20px;
+    margin-bottom: 50px; 
+  }
+  .balance-display, .transaction-list {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    margin-bottom: 20px;
+    backdrop-filter: blur(5px);
+  }
+  .transaction-item {
+    border-bottom: 1px solid #ffffff;
+    padding: 10px 0;
+  }
+  .income {
+    color: #0f0;
+  }
+  .outcome {
+    color: #f00;
+  }
+  #clearHistoryButton {
+    background-color: #f00;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  #clearHistoryButton:hover {
+    background-color: #c00;
+  }
+</style>
+
+</head>
+<body>
+<nav class="navbar">
+  <span>Hello, <span id="userGreeting">User</span> | </span>
+  <a href="main.html">MAIN</a> |
+  <a href="income.html">INCOME</a> |
+  <a href="outcome.html">OUTCOME</a> |
+  <a href="aboutus.html">ABOUT US</a> |
+</nav>
+<div class="container main-container">
+  <div class="balance-display">
+    <h2>Your Balance: <span id="currentBalance">$0.00</span></h2>
+  </div>
+  <div class="transaction-list">
+    <h2>Transactions</h2>
+    <div id="transactionsContainer">
+
+    </div>
+  </div>
+</div>
+
+<div class="container main-container">
+  <div class="d-flex justify-content-center align-items-end" style="height: 100px;">
+    <button id="clearHistoryButton" class="btn btn-danger">Clear Transaction History</button>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.9/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  function updateUserGreeting() {
+    var username = localStorage.getItem('activeUser');
+    if(username) {
+      document.getElementById('userGreeting').textContent = username;
+    }
+  }
+  document.addEventListener('DOMContentLoaded', updateUserGreeting);
+
+  function updateBalanceAndTransactions() {
+    var username = localStorage.getItem('activeUser');
+    var userData = JSON.parse(localStorage.getItem(username)) || { balance: 0, transactions: [] };
+    var balance = userData.balance;
+    var transactions = userData.transactions;
+
+    document.getElementById('currentBalance').textContent = '$' + balance.toFixed(2);
+
+    var transactionsContainer = document.getElementById('transactionsContainer');
+    transactionsContainer.innerHTML = '';
+    transactions.forEach(function(transaction) {
+      var transactionDiv = document.createElement('div');
+      transactionDiv.classList.add('transaction-item');
+
+      if (transaction.type === 'income') {
+        transactionDiv.classList.add('income');
+      } else if (transaction.type === 'outcome') {
+        transactionDiv.classList.add('outcome');
+      }
+
+      transactionDiv.textContent = transaction.name + ': $' + transaction.amount.toFixed(2) + ' (' + transaction.category + ')';
+      transactionsContainer.appendChild(transactionDiv);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', updateBalanceAndTransactions);
+
+  function clearTransactionHistory() {
+    var username = localStorage.getItem('activeUser');
+    var userData = JSON.parse(localStorage.getItem(username));
+    userData.transactions = [];
+    userData.balance = 0;
+    localStorage.setItem(username, JSON.stringify(userData));
+
+    updateBalanceAndTransactions();
+  }
+
+  document.getElementById('clearHistoryButton').addEventListener('click', clearTransactionHistory);
+</script>
+</body>
+</html>

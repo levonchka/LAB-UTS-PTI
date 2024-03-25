@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Money Tracker</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    background-attachment: fixed;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+  }
+  .container {
+    padding: 20px;
+    margin-top: 50px;
+  }
+  .team-member {
+    margin-bottom: 30px;
+  }
+  .team-photo {
+    border-radius: 50%;
+    margin-bottom: 15px;
+  }
+  .team-name {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+  }
+  .team-role {
+    font-size: 1.2em;
+    color: #ffffff;
+  }
+  .navbar {
+    border-bottom: 2px solid #ffffff;
+    padding-bottom: 10px;
+    background: transparent;
+    color: #fff;
+  }
+  .navbar a {
+    color: #ffffff;
+    transition: color 0.3s ease;
+  }
+  .navbar a:hover {
+    color: #ffffff;
+  }
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <span>Hello, <span id="userGreeting">User</span> | </span>
+  <a href="main.html">MAIN</a> |
+  <a href="income.html">INCOME</a> |
+  <a href="outcome.html">OUTCOME</a> |
+  <a href="aboutus.html">ABOUT US</a> |
+</nav>
+<div class="container text-center">
+  <h2>ABOUT US</h2>
+  <p>Money Tracker adalah sebuah aplikasi yang dirancang untuk membantu pengguna dalam melacak dan mengelola keuangan pribadi atau bisnis mereka.
+     Dengan Money Tracker, pengguna dapat mencatat setiap transaksi keuangan yang dilakukan,
+      mengelompokkan transaksi ke dalam kategori-kategori, dan membuat analisis tentang pola pengeluaran dan pemasukan mereka.</p>
+  <p>Tim di balik pembuat Money Tracker</p>
+  <div class="row">
+    <div class="col-md-4 team-member">
+      <img src="Images/masjer.jpg" alt="Team Member 1" class="team-photo" width="200" height="200">
+      <div class="team-name">Jeremy Dominic Adestus G</div>
+      <div class="team-role">00000103941</div>
+    </div>
+    <div class="col-md-4 team-member">
+      <img src="Images/reyrajaiblis.jpg" alt="Team Member 2" class="team-photo" width="200" height="200">
+      <div class="team-name">Reyner Devlin Saputra</div>
+      <div class="team-role">00000103703</div>
+    </div>
+    <div class="col-md-4 team-member">
+      <img src="Images/masyuda.jpg" alt="Team Member 3" class="team-photo" width="200" height="200">
+      <div class="team-name">Yuda Kusuma</div>
+      <div class="team-role">00000110913</div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.9/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  function updateUserGreeting() {
+    var username = localStorage.getItem('activeUser');
+    if(username) {
+      document.getElementById('userGreeting').textContent = username;
+    }
+  }
+  document.addEventListener('DOMContentLoaded', updateUserGreeting);
+</script>
+</body>
+</html>

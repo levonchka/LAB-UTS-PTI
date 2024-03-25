@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Money Tracker</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); 
+      color: #fff;
+      font-family: 'Roboto', sans-serif;
+    }
+    .navbar {
+      width: 100%;
+      border-bottom: 2px solid #ffffff;
+      padding-bottom: 10px;
+      background: transparent;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .navbar a {
+      color: hsl(0, 0%, 100%);
+      transition: color 0.3s ease;
+    }
+    .navbar a:hover {
+      color: #ffffff;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px; 
+      padding: 20px;
+      margin-bottom: 50px;
+      backdrop-filter: blur(5px);
+    }
+    h2 {
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .form-group label {
+      color: #00d4ff;
+    }
+    .form-control {
+      background: none;
+      border: 1px solid #ffffff;
+      color: #fff;
+      transition: border 0.3s ease;
+    }
+    .form-control:focus {
+      border-color: #ffffff;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.807);
+    }
+    .btn-primary {
+      background-color: #00d4ff;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #00b3cc;
+    }
+    .outcome {
+      color: red;
+    }
+  </style>
+  
+</head>
+<body>
+  <nav class="navbar">
+    <span>Hello, <span id="userGreeting">User</span> | </span>
+    <a href="main.html">MAIN</a> |
+    <a href="income.html">INCOME</a> |
+    <a href="outcome.html">OUTCOME</a> |
+    <a href="aboutus.html">ABOUT US</a> |
+  </nav>
+  <div class="container mt-5">
+    <h2>Add Outcome</h2>
+    <form id="outcomeForm">
+      <div class="form-group">
+        <label for="transactionName">Nama Transaksi</label>
+        <input type="text" class="form-control" id="transactionName" required>
+      </div>
+      <div class="form-group">
+        <label for="transactionAmount">Nominal Transaksi</label>
+        <input type="number" class="form-control" id="transactionAmount" min="0.01" step="0.01" required>
+      </div>
+      <div class="form-group">
+        <label for="transactionCategory">Kategori Transaksi</label>
+        <select class="form-control" id="transactionCategory" required>
+          <option value="">Pilih Kategori</option>
+          <option value="Makan">Makan</option>
+          <option value="Main">Main</option>
+          <option value="Edukasi">Edukasi</option>
+          <option value="Belanja">Belanja</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+  <script>
+    document.getElementById('outcomeForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var name = document.getElementById('transactionName').value;
+      var amount = parseFloat(document.getElementById('transactionAmount').value);
+      var category = document.getElementById('transactionCategory').value;
+
+      if(name && amount > 0 && category) {
+        var username = localStorage.getItem('activeUser');
+        var userData = JSON.parse(localStorage.getItem(username)) || { balance: 0, transactions: [] };
+        userData.transactions.push({ name: name, amount: -Math.abs(amount), category: category, type: 'outcome' });
+        userData.balance -= Math.abs(amount);
+        localStorage.setItem(username, JSON.stringify(userData));
+
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Transaksi Berhasil!',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => {
+
+          window.location.href = 'main.html';
+        });
+      } else {
+        alert('Mohon masukkan nominal transaksi yang valid.');
+      }
+    });
+
+    function updateUserGreeting() {
+      var username = localStorage.getItem('activeUser');
+      if(username) {
+        document.getElementById('userGreeting').textContent = username;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', updateUserGreeting);
+  </script>
+</body>
+</html>
